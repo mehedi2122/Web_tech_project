@@ -15,7 +15,7 @@
         <li><a href="">Home</a></li>
         <li><a href="">Contact</a></li>
         <li><a href="">Admission</a></li>
-        <li><a href="" class="btn_login">Login</a></li>
+        <li><a href="login.php" class="btn_login">Login</a></li>
     </ul></nav>
     <div class="section_1">
         <label class ="img_text">We teach student with care</label>
@@ -89,26 +89,32 @@
 <center>
     <h1>Admission Form</h1>
     <form>
-        <div>
+        <div class="adm_int">
             <label class="label_text">Name</label>
-            <input class="input_deg" type="text" name="">
+            <input class="input_deg" type="text">
         </div>
-        <div>
+
+        <div class="adm_int">
             <label class="label_text">Email</label>
-            <input class="input_deg" type="email" name="" >
+            <input class="input_deg" type="email">
         </div>
-        <div>
+
+        <div class="adm_int">
             <label class="label_text">Phone</label>
-            <input class="input_deg" type="text" name="" >
+            <input class="input_deg" type="text">
         </div>
-        <div>
+
             <label class="label_text">Message</label>
-            <textarea></textarea>
+            <textarea class="input_deg"></textarea>
         </div>
+
         <div>
-            <input type="submit">
+            <input class ="btn_sub" id="submit" type="submit" value="apply">
         </div>
     </form>
 </center>
+<footer>
+    <h3 class="footer_text">All &copy; reserved by W-school</h3>
+</footer>
 </body>
 </html>

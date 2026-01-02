@@ -149,13 +149,75 @@ ul li a{
 }
 .label_text{
     display: inline-block;
-    width:100px;
-    text-align: right;  
+    width: 100px;
+    text-align: right;
     padding-right: 10px;
 }
+
 .input_deg{
-    width: 60%;
+    width: 40%;
     height: 40px;
     border-radius: 25px;
     border: 1px solid blue;
-    }
+}
+
+textarea.input_deg{
+    height: 80px;
+}
+.adm_int{
+    padding-top: 10px;
+}
+#submit{
+   position: relative;
+    left: 5%;
+    width: 20%;
+    height: 40px;
+    background-color: blue;
+    border: 1px solid blue;
+}
+footer{
+    background-color:black;
+    height: 60px;
+    width: 100%;
+    text-align: center;
+    color: white;
+    padding-top: 20px;
+    margin: 10px;
+}
+.form_deg{
+    padding-top: 200px;
+}
+.label_deg{
+    display:inline-block;
+    color:black;
+    width: 100px;
+    text-align: right;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+.login_sub{
+    border: 2px solid green;
+    background-color: rgb(113, 104, 233);
+    padding: 5px 10px;
+    border-radius: 5px;
+    color: white;
+}
+.log_form{
+    background-color: lightgray;
+    width: 400px;
+    padding-top: 100px ;
+    padding-bottom: 100px ;
+}
+.title_deg{
+    text-align: center;
+    font-size: 25px;
+    font-weight: bold;
+    padding-bottom: 20px;
+    background-color: lightseagreen;
+    width: 400px;
+}
+.body_deg{
+    background-repeat: no-repeat    ;
+    background-size: cover;
+    background-attachment: fixed;
+}
