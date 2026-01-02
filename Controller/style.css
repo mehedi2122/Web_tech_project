@@ -1,0 +1,161 @@
+*{
+    margin:0;
+    padding:0;
+    
+}
+nav{
+    position:fixed;
+    background-color: skyblue;
+    width:100%;
+    height: 100px;
+    z-index: 1;
+}
+.logo{
+    font-size: 25px;
+    position: relative;
+    left:5%;
+    color: white;
+    font-weight: bold;
+    line-height: 100px;
+   
+}
+ul{
+    position: relative;
+    float:right ;
+    margin-right: 20px;
+
+}
+ul li{
+    list-style: none;
+    display: inline-block;
+    line-height: 100px;
+    margin: 0 15px;
+}
+ul li a{
+    text-decoration: none;
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+}
+.btn_login{
+    border: 2px solid green;
+    background-color: rgb(113, 104, 233);
+    padding: 5px 10px;
+    border-radius: 5px;
+}
+.main_img{
+    width: 100%;
+    height: 300px;
+   
+}
+.section_1{
+    
+    padding-top: 100px;
+}
+.img_text{
+
+    top:20%;
+    left:35%;
+    position: absolute;
+    color: white;
+    background-color: midnightblue;
+    padding: 10px 20px;
+    font-size: 20px;
+    font-weight: bold;
+
+}
+.container{
+    display: flex;
+    align-items: center;
+    gap: 50px;
+    }
+.welcome_img{
+    width: 500px;
+    height: auto;
+    padding-top: 50px;
+    padding-left: 50px;
+}
+.welcome_text h1{
+    margin: 0;
+    font-size: 28px;
+}
+
+.welcome_text{
+    margin-top: 10px;
+    font-size: 18px;
+}
+.teachers{
+    padding: 50px;
+    text-align: center;
+}
+
+.teacher-row{
+    display: flex;
+    justify-content: center;
+    gap: 60px;
+}
+
+.teacher-card{
+    background-color: #f5f5f5;
+    padding: 20px;
+    width: 250px;
+    border-radius: 10px;
+}
+
+.teacher-card img{
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.teacher-card h3{
+    margin: 15px 0 5px;
+    font-size: 20px;
+}
+
+.teacher-card p{
+    font-size: 16px;
+    color: #555;
+}
+.courses{
+    padding: 50px;
+    text-align: center;
+}
+
+.course-row{
+    display: flex;
+    justify-content: center;
+    gap: 60px;
+}
+
+.course-card{
+    background-color: #f5f5f5;
+    padding: 20px;
+    width: 250px;
+    border-radius: 10px;
+}
+
+.course-card img{
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.course-card h3{
+    margin: 15px 0 5px;
+    font-size: 20px;
+}
+.label_text{
+    display: inline-block;
+    width:100px;
+    text-align: right;  
+    padding-right: 10px;
+}
+.input_deg{
+    width: 60%;
+    height: 40px;
+    border-radius: 25px;
+    border: 1px solid blue;
+    }
