@@ -6,23 +6,17 @@
     <title>login form</title>
     <link rel="stylesheet" href="style.css">
 </head>
-<body background="login_back.avif" class="body_deg">
+<body background="../images/login_back.avif" class="body_deg">
+     
     <center>
         <div class="form_deg">
+            <a href="index.php" class="adm_back">Back to Home</a>
             <center class="title_deg">Login Form
 
-                <h4>
-                    <?php
-                   error_reporting(0);
-                   session_start();
-                   session_destroy();
-                        echo $_SESSION['loginMessage'];
-                       
-                
-                    ?>
-                </h4>
+            
             </center>
-            <form action="Login_check.php" method="post" class="log_form">
+            <form action="student_dashboard.php" method="post" class="log_form">
+                
                 <div>
                     <label class="label_deg">Username</label>
                     <input type="text" name="username">
