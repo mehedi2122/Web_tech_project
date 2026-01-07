@@ -207,41 +207,14 @@ footer{
     background-color: #fafbfc;
     color: black;
 }
-body{
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background: #f4f6f8;
-}
-
-.dash_nav{
-    background: #1e90ff;
-    color: white;
-    padding: 15px 30px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.dash_nav a{
-    color: white;
-    text-decoration: none;
-    font-weight: bold;
-}
-
-.dashboard{
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 25px;
-    padding: 40px;
-}
-
-.card{
-    background: white;
-    padding: 25px;
-    border-radius: 8px;
-    box-shadow: 0 5px 10px rgba(0,0,0,0.1);
-}
-
-.card h3{
-    color: #1e90ff;
+.card_profile, .card_courses, .card_attendance, .card_results {
+    background-color: #dce70c;
+    border:px solid #2ec46f;
+    padding: 20px;
+    height: 90px;
+    width: 200px;
+    border-radius: 10px;
+    display: inline-block;
+    margin: 10px;
+    text-align: center;
 }
