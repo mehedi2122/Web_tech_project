@@ -8,52 +8,15 @@
 </head>
 <body background="../images/login_back.avif" class="body_deg">
 
-    <center>
-        
-        <div class="form_deg">
-            <a href="index.php" class="adm_back">Back to Home</a>
-            <center class="title_deg">Admission Form</center>
-
-            <form action="signup_submit.php" method="post" class="log_form">
-
-                <div>
-                    <label class="label_deg">Name</label>
-                    <input type="text" name="name" required>
-                </div>
-
-                <div>
-                    <label class="label_deg">Email</label>
-                    <input type="email" name="email" required>
-                </div>
-
-                <div>
-                    <label class="label_deg">Password</label>
-                    <input type="password" name="password" required>
-                </div>
-
-                <div>
-                    <label class="label_deg">Phone</label>
-                    <input type="text" name="phone" required>
-                </div>
-
-                <div>
-                    <label class="label_deg">Course</label>
-                    <select name="course" required>
-                        <option value="Data Science">Data Science</option>
-                        <option value="Machine Learning">Machine Learning</option>
-                        <option value="Computer Vision">Computer Vision</option>
-                    </select>
-                </div>
-
-                <div>
-                    <input class="login_sub" type="submit" name="submit" value="Submit">
-                </div>
-
-            </form>
-
-            <br>
-        </div>
-    </center>
+   <form action="../Controller/admission_process.php" method="POST">
+    <input type="text" name="name" placeholder="Full Name" required><br>
+    <input type="email" name="email" placeholder="Email" required>  <br>
+    <input type="text" name="phone" placeholder="Phone Number" required><br>
+    <input type="text" name="username" placeholder="Username" required><br>         
+    <input type="password" name="password" placeholder="Password" required> <br>
+    <input type="text" name="course" placeholder="Course" required>
+    <button type="submit">Submit</button>
+</form>
 
 </body>
 </html>

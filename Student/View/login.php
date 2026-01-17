@@ -8,28 +8,15 @@
 </head>
 <body background="../images/login_back.avif" class="body_deg">
      
-    <center>
-        <div class="form_deg">
-            <a href="index.php" class="adm_back">Back to Home</a>
-            <center class="title_deg">Login Form
+    <form action="../Controller/login_check.php" method="POST">
 
-            
-            </center>
-            <form action="student_dashboard.php" method="post" class="log_form">
-                
-                <div>
-                    <label class="label_deg">Username</label>
-                    <input type="text" name="username">
-                </div>
-                <div>
-                    <label class="label_deg">Password</label>
-                    <input type="password" name="password">
-                </div>
-                <div>
-                    <input class="login_sub" type="submit" name="submit" value="Login">
-                </div>
-            </form>
-        </div>
-    </center>
+    <input type="email" name="email" placeholder="Email" required><br><br>
+
+    <input type="password" name="password" placeholder="Password" required><br><br>
+
+    <button type="submit">Login</button>
+
+</form>
+
 </body>
 </html>

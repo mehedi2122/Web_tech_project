@@ -7,38 +7,22 @@
 </head>
 <body background="../images/student_dash.jpg" class="body_deg">
 
-    <div class="dash_nav">
-      <center><h2>Student Dashboard</h2></center> 
-        <a href="index.php" class="adm_back">Back to Home</a>
-    </div>
+    <?php
+session_start();
+if (!isset($_SESSION['student_id'])) {
+    header("Location: login.php");
+}
+?>
 
-    <div class="dashboard">
+<h2>Welcome <?php echo $_SESSION['student_name']; ?></h2>
 
-        <div class="card_profile">
-            <h3>My Profile</h3>
-            <p>View personal information</p>
-            <button>View</button>
-        </div>
-
-        <div class="card_courses">
-            <h3>My Courses</h3>
-            <p>View enrolled courses</p>
-            <button>View</button>
-        </div>
-
-        <div class="card_attendance">
-            <h3>Attendance</h3>
-            <p>Check attendance status</p>
-            <button>View</button>
-        </div>
-
-        <div class="card_results">
-            <h3>Results</h3>
-            <p>View exam results</p>
-            <button>View</button>
-        </div>
-
-    </div>
+<ul>
+    <li><a href="#">Profile</a></li>
+    <li><a href="#">Attendance</a></li>
+    <li><a href="#">Courses</a></li>
+    <li><a href="#">Result</a></li>
+    <li><a href="../Controller/logout.php">Logout</a></li>
+</ul>
 
 </body>
 </html>
