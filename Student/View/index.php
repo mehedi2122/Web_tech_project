@@ -12,8 +12,8 @@
         <label class="logo">W-school</label>
     
     <ul>
-        <li><a href="">Home</a></li>
-        <li><a href="">Contact</a></li>
+        <li><a href="">teacher</a></li>
+        <li><a href="admin_home.php" class="btn_admin">Admin</a></li>
         <li><a href="admission.php" class="btn_admission">Admission</a></li>
         <li><a href="login.php" class="btn_login">Login</a></li>
     </ul></nav>
@@ -36,23 +36,23 @@
 
     <div class="teacher-row">
 
-        <div class="teacher-card">
-            <img src="../images/teacher_1.png" alt="Teacher 1">
-            <h3>Mr. Rahim Ahmed</h3>
-            <p>Data ScienceTeacher</p>
-        </div>
+        <?php
+include "../model/db.php";
 
-        <div class="teacher-card">
-            <img src="../images/teacher_2.jfif" alt="Teacher 2">
-            <h3>Ms. Nusrat Jahan</h3>
-            <p>Machine LearningTeacher</p>
-        </div>
+$sql = "SELECT * FROM teachers";
+$result = mysqli_query($conn, $sql);
 
-        <div class="teacher-card">
-            <img src="../images/teacher_3.jfif" alt="Teacher 3">
-            <h3>Mr. Karim Hossain</h3>
-            <p>SComputer Vision Teacher</p>
-        </div>
+while ($row = mysqli_fetch_assoc($result)) {
+?>
+    <div class="teacher-card">
+        <img src="../uploads/teachers/<?php echo $row['image']; ?>">
+
+        <h3><?php echo $row['name']; ?></h3>
+        <p><?php echo $row['subject']; ?></p>
+    </div>
+<?php
+}
+?>
 
     </div>
 </section>
