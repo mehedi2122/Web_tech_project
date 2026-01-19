@@ -1,0 +1,174 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background: #f4f6f9;
+}
+
+/* NAVBAR */
+nav {
+    background: #2c3e50;
+    color: white;
+    padding: 15px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+nav .logo {
+    font-size: 22px;
+    font-weight: bold;
+}
+
+nav ul {
+    list-style: none;
+    display: flex;
+}
+
+nav ul li {
+    margin-left: 20px;
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
+    padding: 6px 12px;
+    border-radius: 4px;
+}
+
+nav ul li a:hover {
+    background: #1abc9c;
+}
+
+/* HERO */
+.hero {
+    text-align: center;
+    padding: 80px 20px;
+    background: linear-gradient(to right, #4e54c8, #8f94fb);
+    color: white;
+}
+
+.hero h1 {
+    font-size: 40px;
+    margin-bottom: 10px;
+}
+
+/* ABOUT */
+.about {
+    padding: 50px;
+    text-align: center;
+}
+
+.about h2 {
+    margin-bottom: 15px;
+}
+
+/* FOOTER */
+footer {
+    background: #2c3e50;
+    color: white;
+    text-align: center;
+    padding: 15px;
+}
+/* COURSES */
+.courses {
+    padding: 50px;
+    text-align: center;
+}
+
+.course-box {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+}
+
+.course-card {
+    width: 250px;
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px #ccc;
+}
+
+.course-card img {
+    height: 100px;
+    width: 100px;
+    margin-bottom: 10px;
+}
+
+.course-card a {
+    display: inline-block;
+    margin-top: 10px;
+    text-decoration: none;
+    color: white;
+    background: #1abc9c;
+    padding: 5px 12px;
+    border-radius: 5px;
+}
+
+/* TEACHERS */
+.teachers {
+    background: #f4f6f9;
+    padding: 50px;
+    text-align: center;
+}
+
+.teacher-box {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+}
+
+.teacher-card {
+    width: 220px;
+    background: white;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px #ccc;
+}
+
+.teacher-card img {
+    width: 100%;
+    height: 180px;
+    border-radius: 6px;
+}
+.course-detail {
+    width: 60%;
+    margin: 50px auto;
+    background: white;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px #ccc;
+    text-align: center;
+}
+
+.course-detail h1 {
+    color: #2c3e50;
+}
+
+.course-detail ul {
+    list-style: none;
+    padding: 0;
+}
+
+.course-detail ul li {
+    padding: 8px;
+    background: #f1f1f1;
+    margin: 6px 0;
+    border-radius: 5px;
+}
+
+.course-detail .btn {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 10px 20px;
+    background: #1abc9c;
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+}
+

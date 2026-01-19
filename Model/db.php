@@ -7,6 +7,6 @@ $db   = "sms_project";
 $conn = mysqli_connect($host, $user, $pass, $db);
 
 if (!$conn) {
-    die("Database Connection Failed: " . mysqli_connect_error());
+    die("Database connection failed: " . mysqli_connect_error());
 }
 ?>
