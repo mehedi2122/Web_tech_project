@@ -16,18 +16,36 @@ if (isset($_POST['add_student'])) {
         VALUES ('$name','$email','$phone','$username','$password','$course')
     ");
 
-    header("Location: ../View/student/student_list.php");
-    exit();
+    echo "
+<script>
+    alert('✅ Admission Successful! Please login now.');
+    window.location.href = '../View/student/student_login.php';
+</script>
+";
+exit();
+
 }
 
-/* DELETE */
 if (isset($_GET['delete'])) {
-    $id = $_GET['delete'];
-    mysqli_query($conn, "DELETE FROM students WHERE id=$id");
 
-    header("Location: ../View/student/student_list.php");
-    exit();
+    $id = $_GET['delete'];
+
+    // 1️⃣ Delete student results first
+    mysqli_query($conn, "DELETE FROM results WHERE student_id = '$id'");
+
+    // 2️⃣ Then delete student
+    mysqli_query($conn, "DELETE FROM students WHERE id = '$id'");
+
+    echo "
+<script>
+    alert('✅ Admission Successful! Please login now.');
+    window.location.href = '../View/student/student_login.php';
+</script>
+";
+exit();
+
 }
+
 
 /* UPDATE */
 if (isset($_POST['update_student'])) {
@@ -47,7 +65,13 @@ if (isset($_POST['update_student'])) {
         WHERE id='$id'
     ");
 
-    header("Location: ../View/student/student_list.php");
-    exit();
+    echo "
+<script>
+    alert('✅ Admission Successful! Please login now.');
+    window.location.href = '../View/student/student_login.php';
+</script>
+";
+exit();
+
 }
 ?>

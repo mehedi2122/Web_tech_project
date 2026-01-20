@@ -18,5 +18,13 @@ $res = mysqli_query($conn, "SELECT * FROM students");
     <td><?= $row['email']; ?></td>
     <td><?= $row['course']; ?></td>
 </tr>
+<td>
+    <a href="../../Controller/StudentController.php?delete=<?= $row['id'] ?>"
+       onclick="return confirm('Delete this student?')">
+       ❌ Delete
+    </a>
+</td>
+
+
 <?php } ?>
 </table>

@@ -43,5 +43,16 @@ if (isset($_POST['update_teacher'])) {
 
     header("Location: ../View/admin/admin_home.php");
 }
+/* DELETE TEACHER */
+if (isset($_GET['delete_teacher'])) {
+
+    $id = $_GET['delete_teacher'];
+
+    mysqli_query($conn, "DELETE FROM teachers WHERE id='$id'");
+
+    header("Location: ../View/admin/view_teacher.php");
+    exit();
+}
+
 
 ?>

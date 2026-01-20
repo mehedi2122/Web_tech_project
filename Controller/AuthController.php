@@ -5,15 +5,16 @@ include "../Model/db.php";
 /* STUDENT LOGIN */
 if (isset($_POST['student_login'])) {
 
-    $username = $_POST['username'];
-    $password = $_POST['password'];
+    $username = trim($_POST['username']);
+    $password = trim($_POST['password']);
 
-    $query = "SELECT * FROM students WHERE username='$username'";
-    $result = mysqli_query($conn, $query);
+    $query = mysqli_query($conn,
+        "SELECT * FROM students WHERE username='$username'"
+    );
 
-    if (mysqli_num_rows($result) == 1) {
+    if (mysqli_num_rows($query) == 1) {
 
-        $row = mysqli_fetch_assoc($result);
+        $row = mysqli_fetch_assoc($query);
 
         if (password_verify($password, $row['password'])) {
 
@@ -22,14 +23,16 @@ if (isset($_POST['student_login'])) {
 
             header("Location: ../View/student/student_dashboard.php");
             exit();
+
         } else {
-            echo "<script>alert('Wrong Password'); window.history.back();</script>";
+            echo "<script>alert('❌ Wrong Password'); history.back();</script>";
         }
 
     } else {
-        echo "<script>alert('User Not Found'); window.history.back();</script>";
+        echo "<script>alert('❌ Username not found'); history.back();</script>";
     }
 }
+
 /* TEACHER LOGIN */
 if (isset($_POST['teacher_login'])) {
 

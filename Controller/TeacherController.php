@@ -65,3 +65,26 @@ if (isset($_POST['update_teacher'])) {
     header("Location: ../View/teacher/teacher_list.php");
     exit();
 }
+/* ADD RESULT */
+/* ADD RESULT */
+if (isset($_POST['add_result'])) {
+
+    $student_id = $_POST['student_id'];
+    $subject = $_POST['subject'];
+    $marks = $_POST['marks'];
+    $grade = $_POST['grade'];
+
+    $query = "INSERT INTO results 
+              (student_id, subject, marks, grade)
+              VALUES ('$student_id', '$subject', '$marks', '$grade')";
+
+    if (mysqli_query($conn, $query)) {
+        echo "<script>
+            alert('Result Added Successfully!');
+            window.location.href='../View/teacher/teacher_dashboard.php';
+        </script>";
+    } else {
+        echo "Error: " . mysqli_error($conn);
+    }
+}
+?>
