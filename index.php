@@ -13,11 +13,11 @@ include "Model/db.php";
 <nav>
     <div class="logo">W-School</div>
     <ul>
-       <li><a href="View/teacher/teacher_login.php">Teacher</a></li>
-        <li><a href="View/admin/admin_home.php">Admin</a></li>
+        <li><a href="View/teacher/teacher_login.php">Teacher</a></li>
+        <li><a href="View/admin/admin_login.php">Admin</a></li>
         <li><a href="View/student/admission.php">Admission</a>
 </li>
-        <li><a href="View/login.php">Login</a></li>
+        <li><a href="View/student/student_login.php" class="btn_login">Student Login</a></li>
     </ul>
 </nav>
 
@@ -34,21 +34,21 @@ include "Model/db.php";
     <div class="course-box">
 
         <div class="course-card">
-            <img src="assets/images/cv.jfif">
+            <img src="assets/images/cv.png">
             <h3>Computer Vision</h3>
             <p>Learn image processing and AI vision systems.</p>
             <a href="View/course_details.php?course=cv">View Details</a>
         </div>
 
         <div class="course-card">
-            <img src="assets/images/ml.webp">
+            <img src="assets/images/ml.png">
             <h3>Machine Learning</h3>
             <p>Build intelligent models with real datasets.</p>
             <a href="View/course_details.php?course=ml">View Details</a>
         </div>
 
         <div class="course-card">
-            <img src="assets/images/ds.webp">
+            <img src="assets/images/ds.png">
             <h3>Data Science</h3>
             <p>Analyze data & make smart decisions.</p>
             <a href="View/course_details.php?course=ds">View Details</a>

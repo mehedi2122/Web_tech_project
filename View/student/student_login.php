@@ -1,20 +1,20 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Teacher Login</title>
+    <title>Student Login</title>
     <link rel="stylesheet" href="../../assets/style.css">
 </head>
 <body>
 
-<h2 style="text-align:center;">Teacher Login</h2>
+<h2 style="text-align:center;">Student Login</h2>
 
 <form action="../../Controller/AuthController.php" method="POST" style="width:40%; margin:auto;">
 
-    <input type="email" name="email" placeholder="Email" required><br><br>
+    <input type="text" name="username" placeholder="Username" required><br><br>
 
     <input type="password" name="password" placeholder="Password" required><br><br>
 
-    <button type="submit" name="teacher_login">Login</button>
+    <button type="submit" name="student_login">Login</button>
 
 </form>
 

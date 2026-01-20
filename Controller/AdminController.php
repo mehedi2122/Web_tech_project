@@ -1,36 +1,30 @@
 <?php
 include "../Model/db.php";
 
+
 /* ADD TEACHER */
 if (isset($_POST['add_teacher'])) {
 
     $name = $_POST['name'];
-    $subject = $_POST['subject'];
     $email = $_POST['email'];
+    $subject = $_POST['subject'];
     $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
 
-    $image = $_FILES['image']['name'];
-    $tmp = $_FILES['image']['tmp_name'];
+    $img = $_FILES['image']['name'];
+    move_uploaded_file($_FILES['image']['tmp_name'], "../uploads/teachers/".$img);
 
-    move_uploaded_file($tmp, "../uploads/teachers/".$image);
+    mysqli_query($conn, "
+        INSERT INTO teachers(name,email,subject,password,image)
+        VALUES('$name','$email','$subject','$password','$img')
+    ");
 
-    $sql = "INSERT INTO teachers 
-            (name, subject, email, password, image)
-            VALUES ('$name','$subject','$email','$password','$image')";
-
-    mysqli_query($conn, $sql);
-
-    header("Location: ../View/admin/admin_home.php");
+    header("Location: ../View/admin/admin_dashboard.php");
 }
-
-/* DELETE TEACHER */
-if (isset($_GET['delete'])) {
-    $id = $_GET['delete'];
-
-    $sql = "DELETE FROM teachers WHERE id='$id'";
-    mysqli_query($conn, $sql);
-
-    header("Location: ../View/admin/admin_home.php");
+/* DELETE STUDENT */
+if (isset($_GET['delete_student'])) {
+    $id = $_GET['delete_student'];
+    mysqli_query($conn, "DELETE FROM students WHERE id=$id");
+    header("Location: ../View/admin/student_list.php");
 }
 if (isset($_POST['update_teacher'])) {
 
