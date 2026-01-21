@@ -2,11 +2,13 @@
 session_start();
 include "../Model/db.php";
 
-/* STUDENT LOGIN */
+/* =====================
+   STUDENT LOGIN
+===================== */
 if (isset($_POST['student_login'])) {
 
-    $username = trim($_POST['username']);
-    $password = trim($_POST['password']);
+    $username = mysqli_real_escape_string($conn, $_POST['username']);
+    $password = $_POST['password'];
 
     $query = mysqli_query($conn,
         "SELECT * FROM students WHERE username='$username'"
@@ -21,30 +23,38 @@ if (isset($_POST['student_login'])) {
             $_SESSION['student_id'] = $row['id'];
             $_SESSION['student_name'] = $row['name'];
 
+            // Cookie (Remember Me)
+            if (isset($_POST['remember'])) {
+                setcookie("student_user", $row['username'], time()+86400*7, "/");
+            }
+
             header("Location: ../View/student/student_dashboard.php");
             exit();
-
-        } else {
-            echo "<script>alert('❌ Wrong Password'); history.back();</script>";
         }
-
-    } else {
-        echo "<script>alert('❌ Username not found'); history.back();</script>";
     }
+
+    echo "<script>
+        alert('Invalid Username or Password');
+        window.location.href='../View/student/student_login.php';
+    </script>";
 }
 
-/* TEACHER LOGIN */
+
+/* =====================
+   TEACHER LOGIN
+===================== */
 if (isset($_POST['teacher_login'])) {
 
-    $email = $_POST['email'];
+    $email = mysqli_real_escape_string($conn, $_POST['email']);
     $password = $_POST['password'];
 
-    $query = "SELECT * FROM teachers WHERE email='$email'";
-    $result = mysqli_query($conn, $query);
+    $query = mysqli_query($conn,
+        "SELECT * FROM teachers WHERE email='$email'"
+    );
 
-    if (mysqli_num_rows($result) == 1) {
+    if (mysqli_num_rows($query) == 1) {
 
-        $row = mysqli_fetch_assoc($result);
+        $row = mysqli_fetch_assoc($query);
 
         if (password_verify($password, $row['password'])) {
 
@@ -53,39 +63,37 @@ if (isset($_POST['teacher_login'])) {
 
             header("Location: ../View/teacher/teacher_dashboard.php");
             exit();
-        } else {
-            echo "<script>alert('Wrong Password'); window.history.back();</script>";
         }
-
-    } else {
-        echo "<script>alert('Teacher Not Found'); window.history.back();</script>";
     }
+
+    echo "<script>
+        alert('Invalid Teacher Login');
+        window.history.back();
+    </script>";
 }
-/* ADMIN LOGIN */
+
+
+/* =====================
+   ADMIN LOGIN (NO DB)
+===================== */
 if (isset($_POST['admin_login'])) {
 
     $username = $_POST['username'];
     $password = $_POST['password'];
 
-    // ✅ HARD-CODED ADMIN LOGIN
-    $admin_username = "admin";
-    $admin_password = "admin123";
+    // Hard-coded admin
+    if ($username === "admin" && $password === "admin123") {
 
-    if ($username === $admin_username && $password === $admin_password) {
-
-        $_SESSION['admin'] = $admin_username;
+        $_SESSION['admin'] = "admin";
 
         header("Location: ../View/admin/admin_dashboard.php");
         exit();
 
     } else {
         echo "<script>
-            alert('Invalid Username or Password');
+            alert('Invalid Admin Login');
             window.history.back();
         </script>";
     }
 }
-
-
-
 ?>
