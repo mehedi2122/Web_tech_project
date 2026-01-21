@@ -7,14 +7,13 @@ if (!isset($_SESSION['teacher_id'])) {
     exit();
 }
 
-// Fetch students
-$students = mysqli_query($conn, "SELECT * FROM students");
+$notices = mysqli_query($conn, "SELECT * FROM notices ORDER BY id DESC");
 ?>
 
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Teacher Dashboard</title>
+    <title>View Notices</title>
     <style>
         body {
             font-family: Arial;
@@ -51,7 +50,7 @@ $students = mysqli_query($conn, "SELECT * FROM students");
             border-radius: 4px;
         }
 
-        .logout {
+        .delete {
             background: #dc3545;
         }
     </style>
@@ -59,46 +58,32 @@ $students = mysqli_query($conn, "SELECT * FROM students");
 
 <body>
 
-<h2>👩‍🏫 Welcome, <?= $_SESSION['teacher_name']; ?></h2>
-
-<a class="logout" href="teacher_logout.php">Logout</a>
-
-<h3>📘 Student List</h3>
+<h2>📢 All Notices</h2>
 
 <table>
     <tr>
-        <th>Name</th>
-        <th>Course</th>
+        <th>Title</th>
+        <th>Message</th>
         <th>Action</th>
     </tr>
 
-    <?php while ($row = mysqli_fetch_assoc($students)) { ?>
+    <?php while ($row = mysqli_fetch_assoc($notices)) { ?>
         <tr>
-            <td><?= htmlspecialchars($row['name']); ?></td>
-            <td><?= htmlspecialchars($row['course']); ?></td>
+            <td><?= htmlspecialchars($row['title']); ?></td>
+            <td><?= htmlspecialchars($row['message']); ?></td>
             <td>
-                <a href="add_result.php?id=<?= $row['id']; ?>" style="margin-right:10px;">
-                   Add / Update Result
+                <a class="delete" href="../../Controller/TeacherController.php?delete_notice=<?= $row['id']; ?>"
+                   onclick="return confirm('Delete this notice?')">
+                    Delete
                 </a>
-
-                <a href="documents_upload.php?student_id=<?= $row['id']; ?>" style="margin-right:10px;">
-                   Upload Document
-                </a>
-
-                 <a href="teacher_chat.php?student_id=<?= $row['id']; ?>">
-                   Chat
-                </a>
-
             </td>
         </tr>
     <?php } ?>
 </table>
 
-<h3>📢 Notice & Announcements</h3>
+<br><br>
 
-<a href="add_notice.php">Add Notice</a>
-
-<a href="view_notice.php">View All Notices</a>
+<a href="teacher_dashboard.php">Back</a>
 
 </body>
 </html>

@@ -127,4 +127,35 @@ if (isset($_POST['upload_document'])) {
         echo "<script>alert('File Error!'); window.history.back();</script>";
     }
 }
+
+/* ADD NOTICE */
+if (isset($_POST['add_notice'])) {
+
+    $title = mysqli_real_escape_string($conn, $_POST['title']);
+    $message = mysqli_real_escape_string($conn, $_POST['message']);
+
+
+    $query = "INSERT INTO notices 
+              (title, message)
+              VALUES ('$title', '$message')";
+
+    if (mysqli_query($conn, $query)) {
+        echo "<script>
+            alert('Notice Published Successfully!');
+            window.location.href='../View/teacher/view_notice.php';
+        </script>";
+    } else {
+        echo "Error: " . mysqli_error($conn);
+    }
+}
+
+/* DELETE NOTICE */
+if (isset($_GET['delete_notice'])) {
+
+    $id = $_GET['delete_notice'];
+    mysqli_query($conn, "DELETE FROM notices WHERE id=$id");
+
+    header("Location: ../View/teacher/view_notice.php");
+    exit();
+}
 ?>

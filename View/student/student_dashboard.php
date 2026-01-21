@@ -18,6 +18,11 @@ $resultQuery = mysqli_query($conn,
 $docQuery = mysqli_query($conn,
     "SELECT * FROM documents WHERE student_id = '$student_id' ORDER BY uploaded_at DESC"
 );
+
+/* Fetch notices */
+$noticeQuery = mysqli_query($conn,
+    "SELECT * FROM notices ORDER BY id DESC"
+);
 ?>
 
 <!DOCTYPE html>
@@ -99,6 +104,7 @@ $docQuery = mysqli_query($conn,
     <div class="section">
         <a class="btn" href="student_profile.php">👤 My Profile</a>
         <a class="btn btn-danger" href="student_logout.php">🚪 Logout</a>
+        <a class="btn" href="student_chat.php?teacher_id=1">💬 Chat</a>
     </div>
 
     <!-- RESULTS -->
@@ -154,6 +160,31 @@ $docQuery = mysqli_query($conn,
             <?php } else { ?>
                 <tr>
                     <td colspan="3">No documents uploaded yet.</td>
+                </tr>
+            <?php } ?>
+        </table>
+    </div>
+
+    <!-- NOTICE -->
+    <div class="section">
+        <h3>📢 Notice & Announcements</h3>
+
+        <table>
+            <tr>
+                <th>Title</th>
+                <th>Message</th>
+            </tr>
+
+            <?php if (mysqli_num_rows($noticeQuery) > 0) { ?>
+                <?php while ($n = mysqli_fetch_assoc($noticeQuery)) { ?>
+                    <tr>
+                        <td><?= htmlspecialchars($n['title']) ?></td>
+                        <td><?= htmlspecialchars($n['message']) ?></td>
+                    </tr>
+                <?php } ?>
+            <?php } else { ?>
+                <tr>
+                    <td colspan="2">No notices available.</td>
                 </tr>
             <?php } ?>
         </table>
