@@ -21,30 +21,28 @@ if (isset($_POST['add_student'])) {
     alert('✅ Admission Successful! Please login now.');
     window.location.href = '../View/student/student_login.php';
 </script>
-";
-exit();
+";}
 
-}
-
+/* DELETE STUDENT */
 if (isset($_GET['delete'])) {
 
     $id = $_GET['delete'];
 
-    // 1️⃣ Delete student results first
+    // First delete related results
     mysqli_query($conn, "DELETE FROM results WHERE student_id = '$id'");
 
-    // 2️⃣ Then delete student
+    // Then delete student
     mysqli_query($conn, "DELETE FROM students WHERE id = '$id'");
 
     echo "
-<script>
-    alert('✅ Admission Successful! Please login now.');
-    window.location.href = '../View/student/student_login.php';
-</script>
-";
-exit();
-
+    <script>
+        alert('✅ Student deleted successfully');
+        window.location.href = '../View/student/student_list.php';
+    </script>
+    ";
+    exit();
 }
+
 
 
 /* UPDATE */

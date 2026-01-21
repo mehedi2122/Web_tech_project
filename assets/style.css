@@ -95,7 +95,8 @@ footer {
 }
 
 .course-card img {
-    width: 80px;
+    width: 100px;
+    height: 100px;
     margin-bottom: 10px;
 }
 
