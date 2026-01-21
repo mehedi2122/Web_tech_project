@@ -11,21 +11,22 @@ if (isset($_POST['student_login'])) {
     $password = $_POST['password'];
 
     $query = mysqli_query($conn,
-        "SELECT * FROM students WHERE username='$username'"
+        "SELECT * FROM students WHERE username='$username' OR email='$username'"
     );
 
     if (mysqli_num_rows($query) == 1) {
 
         $row = mysqli_fetch_assoc($query);
 
-        if (password_verify($password, $row['password'])) {
+        if (password_verify($password, $row['password']) || $password == $row['password']) {
 
+            // SET STUDENT SESSION (THIS WAS MISSING)
             $_SESSION['student_id'] = $row['id'];
             $_SESSION['student_name'] = $row['name'];
 
-            // Cookie (Remember Me)
+            // Remember Me cookie
             if (isset($_POST['remember'])) {
-                setcookie("student_user", $row['username'], time()+86400*7, "/");
+                setcookie("student_user", $username, time() + 86400 * 7, "/");
             }
 
             header("Location: ../View/student/student_dashboard.php");

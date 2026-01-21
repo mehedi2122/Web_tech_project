@@ -26,6 +26,16 @@ if (isset($_POST['name'])) {
     $username = mysqli_real_escape_string($conn, $username);
     $course = mysqli_real_escape_string($conn, $course);
 
+    // DUPLICATE CHECK
+    $check = mysqli_query($conn, "SELECT id FROM students WHERE username='$username' OR email='$email'");
+    if (mysqli_num_rows($check) > 0) {
+        echo json_encode([
+            "status" => "error",
+            "message" => "❌ Username or Email already exists"
+        ]);
+        exit();
+    }
+
     $password = password_hash($password, PASSWORD_DEFAULT);
 
     mysqli_query($conn, "
