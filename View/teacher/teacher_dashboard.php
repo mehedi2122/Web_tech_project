@@ -80,6 +80,10 @@ $students = mysqli_query($conn, "SELECT * FROM students");
                 <a href="add_result.php?id=<?= $row['id']; ?>">
                     Add / Update Result
                 </a>
+
+                <a href="documents_upload.php?student_id=<?= $row['id']; ?>">
+                    Upload Document
+                </a>
             </td>
         </tr>
     <?php } ?>

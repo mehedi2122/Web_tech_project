@@ -87,4 +87,44 @@ if (isset($_POST['add_result'])) {
         echo "Error: " . mysqli_error($conn);
     }
 }
+
+/* DOCUMENT UPLOAD */
+if (isset($_POST['upload_document'])) {
+
+    $student_id = $_POST['student_id'];
+    $title = $_POST['doc_title'];
+    $description = $_POST['doc_description'];
+
+    $fileName = $_FILES['document']['name'];
+    $tmpName = $_FILES['document']['tmp_name'];
+    $error = $_FILES['document']['error'];
+
+    if ($error == 0) {
+
+        $newFileName = time() . "_" . $fileName;
+        $uploadPath = "../uploads/" . $newFileName;
+
+        if (move_uploaded_file($tmpName, $uploadPath)) {
+
+            $query = "INSERT INTO documents 
+                      (student_id, title, description, file_name)
+                      VALUES ('$student_id', '$title', '$description', '$newFileName')";
+
+            if (mysqli_query($conn, $query)) {
+                echo "<script>
+                    alert('Document Uploaded Successfully!');
+                    window.location.href='../View/teacher/teacher_dashboard.php';
+                </script>";
+            } else {
+                echo "Error: " . mysqli_error($conn);
+            }
+
+        } else {
+            echo "<script>alert('Upload Failed!'); window.history.back();</script>";
+        }
+
+    } else {
+        echo "<script>alert('File Error!'); window.history.back();</script>";
+    }
+}
 ?>

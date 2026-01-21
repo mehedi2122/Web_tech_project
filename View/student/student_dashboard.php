@@ -13,6 +13,11 @@ $student_id = $_SESSION['student_id'];
 $resultQuery = mysqli_query($conn,
     "SELECT * FROM results WHERE student_id = '$student_id'"
 );
+
+/* Fetch student documents */
+$docQuery = mysqli_query($conn,
+    "SELECT * FROM documents WHERE student_id = '$student_id' ORDER BY uploaded_at DESC"
+);
 ?>
 
 <!DOCTYPE html>
@@ -118,6 +123,37 @@ $resultQuery = mysqli_query($conn,
             <?php } else { ?>
                 <tr>
                     <td colspan="3">No results published yet.</td>
+                </tr>
+            <?php } ?>
+        </table>
+    </div>
+
+    <!-- DOCUMENTS -->
+    <div class="section">
+        <h3>📄 My Documents</h3>
+
+        <table>
+            <tr>
+                <th>Title</th>
+                <th>Description</th>
+                <th>File</th>
+            </tr>
+
+            <?php if (mysqli_num_rows($docQuery) > 0) { ?>
+                <?php while ($doc = mysqli_fetch_assoc($docQuery)) { ?>
+                    <tr>
+                        <td><?= htmlspecialchars($doc['title']) ?></td>
+                        <td><?= htmlspecialchars($doc['description']) ?></td>
+                        <td>
+                            <a class="btn" href="../../uploads/<?= $doc['file_name'] ?>" target="_blank">
+                                View / Download
+                            </a>
+                        </td>
+                    </tr>
+                <?php } ?>
+            <?php } else { ?>
+                <tr>
+                    <td colspan="3">No documents uploaded yet.</td>
                 </tr>
             <?php } ?>
         </table>
