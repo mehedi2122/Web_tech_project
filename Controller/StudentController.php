@@ -10,45 +10,66 @@ if (isset($_POST['name'])) {
     $password = trim($_POST['password']);
     $course   = trim($_POST['course']);
 
-    // PHP Validation
-    if ($name == "" || $email == "" || $phone == "" || $username == "" || $password == "" || $course == "") {
+    
+
+    if ($name == "" || $email == "" || $phone == "" || 
+        $username == "" || $password == "" || $course == "") {
+
         echo json_encode([
             "status" => "error",
-            "message" => "❌ All fields are required"
+            "message" => "All fields are required!"
         ]);
         exit();
     }
 
-    // Security
-    $name = mysqli_real_escape_string($conn, $name);
-    $email = mysqli_real_escape_string($conn, $email);
-    $phone = mysqli_real_escape_string($conn, $phone);
-    $username = mysqli_real_escape_string($conn, $username);
-    $course = mysqli_real_escape_string($conn, $course);
-
-    // DUPLICATE CHECK
-    $check = mysqli_query($conn, "SELECT id FROM students WHERE username='$username' OR email='$email'");
-    if (mysqli_num_rows($check) > 0) {
+    
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         echo json_encode([
             "status" => "error",
-            "message" => "❌ Username or Email already exists"
+            "message" => "Invalid email format!"
         ]);
         exit();
     }
 
-    $password = password_hash($password, PASSWORD_DEFAULT);
+    
+    if (!preg_match("/^[0-9]{10}$/", $phone)) {
+        echo json_encode([
+            "status" => "error",
+            "message" => "Phone number must be 10 digits!"
+        ]);
+        exit();
+    }
 
-    mysqli_query($conn, "
-        INSERT INTO students (name,email,phone,username,password,course)
-        VALUES ('$name','$email','$phone','$username','$password','$course')
-    ");
+   
+    if (strlen($password) < 5) {
+        echo json_encode([
+            "status" => "error",
+            "message" => "Password must be at least 5 characters!"
+        ]);
+        exit();
+    }
+
+    $stmt = $conn->prepare(
+        "INSERT INTO students (name,email,phone,username,password,course)
+         VALUES (?,?,?,?,?,?)"
+    );
+    $stmt->bind_param(
+        "ssssss",
+        $name,
+        $email,
+        $phone,
+        $username,
+        $password,
+        $course
+    );
+
+    $stmt->execute();
 
     echo json_encode([
         "status" => "success",
-        "message" => "✅ Admission Successful! Redirecting..."
+        "message" => "Admission Successful!"
     ]);
 }
-
 
 
 

@@ -1,25 +1,30 @@
 <?php
 session_start();
 include "../Model/db.php";
-
+ 
 /* ========================
    TEACHER LOGIN
 ======================== */
 if (isset($_POST['teacher_login'])) {
-
+ 
     $email = $_POST['email'];
     $password = $_POST['password'];
-
+ 
     $sql = "SELECT * FROM teachers WHERE email='$email'";
     $result = mysqli_query($conn, $sql);
-
+ 
     if (mysqli_num_rows($result) == 1) {
         $row = mysqli_fetch_assoc($result);
-
+ 
         if (password_verify($password, $row['password'])) {
             $_SESSION['teacher_id'] = $row['id'];
             $_SESSION['teacher_name'] = $row['name'];
-
+ 
+            /* ✅ COOKIE ADDED (REMEMBER TEACHER EMAIL) */
+            if (isset($_POST['remember'])) {
+                setcookie("teacher_email", $email, time() + 86400 * 7, "/");
+            }
+ 
             header("Location: ../View/teacher/teacher_home.php");
             exit();
         } else {
@@ -29,55 +34,55 @@ if (isset($_POST['teacher_login'])) {
         echo "<script>alert('Teacher Not Found'); window.history.back();</script>";
     }
 }
-
-
+ 
+ 
 /* ========================
    DELETE TEACHER
 ======================== */
 if (isset($_GET['delete'])) {
-
+ 
     $id = $_GET['delete'];
     mysqli_query($conn, "DELETE FROM teachers WHERE id=$id");
-
+ 
     header("Location: ../View/teacher/teacher_list.php");
     exit();
 }
-
-
+ 
+ 
 /* ========================
    UPDATE TEACHER
 ======================== */
 if (isset($_POST['update_teacher'])) {
-
+ 
     $id = $_POST['id'];
     $name = $_POST['name'];
     $subject = $_POST['subject'];
     $email = $_POST['email'];
-
+ 
     mysqli_query($conn, "
-        UPDATE teachers SET 
+        UPDATE teachers SET
         name='$name',
         subject='$subject',
         email='$email'
         WHERE id='$id'
     ");
-
+ 
     header("Location: ../View/teacher/teacher_list.php");
     exit();
 }
-/* ADD RESULT */
+ 
 /* ADD RESULT */
 if (isset($_POST['add_result'])) {
-
+ 
     $student_id = $_POST['student_id'];
     $subject = $_POST['subject'];
     $marks = $_POST['marks'];
     $grade = $_POST['grade'];
-
-    $query = "INSERT INTO results 
+ 
+    $query = "INSERT INTO results
               (student_id, subject, marks, grade)
               VALUES ('$student_id', '$subject', '$marks', '$grade')";
-
+ 
     if (mysqli_query($conn, $query)) {
         echo "<script>
             alert('Result Added Successfully!');
@@ -87,58 +92,130 @@ if (isset($_POST['add_result'])) {
         echo "Error: " . mysqli_error($conn);
     }
 }
-
+ 
+ 
 /* DOCUMENT UPLOAD */
 if (isset($_POST['upload_document'])) {
-
+ 
+    $isJson = isset($_SERVER['HTTP_ACCEPT'])
+              && strpos($_SERVER['HTTP_ACCEPT'], 'application/json') !== false;
+ 
     $student_id = $_POST['student_id'];
     $title = $_POST['doc_title'];
     $description = $_POST['doc_description'];
-
+ 
+    if ($student_id == "" || $title == "") {
+        if ($isJson) {
+            header("Content-Type: application/json");
+            echo json_encode([
+                "status" => "error",
+                "message" => "❌ Student and Document Title are required"
+            ]);
+            exit();
+        } else {
+            echo "<script>alert('Student and Document Title are required'); window.history.back();</script>";
+            exit();
+        }
+    }
+ 
+    if (!isset($_FILES['document'])) {
+        if ($isJson) {
+            header("Content-Type: application/json");
+            echo json_encode([
+                "status" => "error",
+                "message" => "❌ Please select a document"
+            ]);
+            exit();
+        } else {
+            echo "<script>alert('Please select a document'); window.history.back();</script>";
+            exit();
+        }
+    }
+ 
     $fileName = $_FILES['document']['name'];
     $tmpName = $_FILES['document']['tmp_name'];
     $error = $_FILES['document']['error'];
-
+ 
     if ($error == 0) {
-
+ 
         $newFileName = time() . "_" . $fileName;
         $uploadPath = "../uploads/" . $newFileName;
-
+ 
         if (move_uploaded_file($tmpName, $uploadPath)) {
-
-            $query = "INSERT INTO documents 
+ 
+            $query = "INSERT INTO documents
                       (student_id, title, description, file_name)
                       VALUES ('$student_id', '$title', '$description', '$newFileName')";
-
+ 
             if (mysqli_query($conn, $query)) {
-                echo "<script>
-                    alert('Document Uploaded Successfully!');
-                    window.location.href='../View/teacher/teacher_dashboard.php';
-                </script>";
+                if ($isJson) {
+                    header("Content-Type: application/json");
+                    echo json_encode([
+                        "status" => "success",
+                        "message" => "✅ Document Uploaded Successfully! Redirecting..."
+                    ]);
+                    exit();
+                } else {
+                    echo "<script>
+                        alert('Document Uploaded Successfully!');
+                        window.location.href='../View/teacher/teacher_dashboard.php';
+                    </script>";
+                    exit();
+                }
             } else {
-                echo "Error: " . mysqli_error($conn);
+                if ($isJson) {
+                    header("Content-Type: application/json");
+                    echo json_encode([
+                        "status" => "error",
+                        "message" => "❌ DB Error: " . mysqli_error($conn)
+                    ]);
+                    exit();
+                } else {
+                    echo "Error: " . mysqli_error($conn);
+                    exit();
+                }
             }
-
+ 
         } else {
-            echo "<script>alert('Upload Failed!'); window.history.back();</script>";
+            if ($isJson) {
+                header("Content-Type: application/json");
+                echo json_encode([
+                    "status" => "error",
+                    "message" => "❌ Upload Failed!"
+                ]);
+                exit();
+            } else {
+                echo "<script>alert('Upload Failed!'); window.history.back();</script>";
+                exit();
+            }
         }
-
+ 
     } else {
-        echo "<script>alert('File Error!'); window.history.back();</script>";
+        if ($isJson) {
+            header("Content-Type: application/json");
+            echo json_encode([
+                "status" => "error",
+                "message" => "❌ File Error!"
+            ]);
+            exit();
+        } else {
+            echo "<script>alert('File Error!'); window.history.back();</script>";
+            exit();
+        }
     }
 }
-
+ 
+ 
 /* ADD NOTICE */
 if (isset($_POST['add_notice'])) {
-
+ 
     $title = mysqli_real_escape_string($conn, $_POST['title']);
     $message = mysqli_real_escape_string($conn, $_POST['message']);
-
-
-    $query = "INSERT INTO notices 
+ 
+    $query = "INSERT INTO notices
               (title, message)
               VALUES ('$title', '$message')";
-
+ 
     if (mysqli_query($conn, $query)) {
         echo "<script>
             alert('Notice Published Successfully!');
@@ -148,14 +225,16 @@ if (isset($_POST['add_notice'])) {
         echo "Error: " . mysqli_error($conn);
     }
 }
-
+ 
+ 
 /* DELETE NOTICE */
 if (isset($_GET['delete_notice'])) {
-
+ 
     $id = $_GET['delete_notice'];
     mysqli_query($conn, "DELETE FROM notices WHERE id=$id");
-
+ 
     header("Location: ../View/teacher/view_notice.php");
     exit();
 }
 ?>
+ 

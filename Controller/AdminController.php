@@ -1,58 +1,58 @@
 <?php
+session_start();
+header('Content-Type: application/json');
+ 
 include "../Model/db.php";
-
-
-/* ADD TEACHER */
-if (isset($_POST['add_teacher'])) {
-
-    $name = $_POST['name'];
-    $email = $_POST['email'];
-    $subject = $_POST['subject'];
-    $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
-
-    $img = $_FILES['image']['name'];
-    move_uploaded_file($_FILES['image']['tmp_name'], "../uploads/teachers/".$img);
-
-    mysqli_query($conn, "
-        INSERT INTO teachers(name,email,subject,password,image)
-        VALUES('$name','$email','$subject','$password','$img')
-    ");
-
-    header("Location: ../View/admin/admin_dashboard.php");
-}
-/* DELETE STUDENT */
-if (isset($_GET['delete_student'])) {
-    $id = $_GET['delete_student'];
-    mysqli_query($conn, "DELETE FROM students WHERE id=$id");
-    header("Location: ../View/admin/student_list.php");
-}
-if (isset($_POST['update_teacher'])) {
-
-    $id = $_POST['id'];
-    $name = $_POST['name'];
-    $subject = $_POST['subject'];
-    $email = $_POST['email'];
-
-    mysqli_query($conn,
-        "UPDATE teachers SET 
-         name='$name',
-         subject='$subject',
-         email='$email'
-         WHERE id='$id'"
+ 
+if(isset($_POST['add_teacher'])){
+ 
+    // PHP VALIDATION
+    $name = trim($_POST['name']);
+    $email = trim($_POST['email']);
+    $subject = trim($_POST['subject']);
+    $password = $_POST['password'];
+ 
+    if($name=="" || $email=="" || $subject=="" || $password==""){
+        echo json_encode(["status"=>"error","message"=>"All fields required"]);
+        exit();
+    }
+ 
+    
+    $hashPass = password_hash($password, PASSWORD_DEFAULT);
+ 
+    
+    if(!isset($_FILES['image']) || $_FILES['image']['error'] != 0){
+        echo json_encode(["status"=>"error","message"=>"Image upload failed"]);
+        exit();
+    }
+ 
+    $imgName = time()."_".$_FILES['image']['name'];
+    $tmp = $_FILES['image']['tmp_name'];
+    $path = "../uploads/teachers/".$imgName;
+ 
+    if(!move_uploaded_file($tmp, $path)){
+        echo json_encode(["status"=>"error","message"=>"Image move failed"]);
+        exit();
+    }
+ 
+    
+    $stmt = $conn->prepare(
+        "INSERT INTO teachers (name,email,subject,password,image)
+         VALUES (?,?,?,?,?)"
     );
-
-    header("Location: ../View/admin/admin_home.php");
-}
-/* DELETE TEACHER */
-if (isset($_GET['delete_teacher'])) {
-
-    $id = $_GET['delete_teacher'];
-
-    mysqli_query($conn, "DELETE FROM teachers WHERE id='$id'");
-
-    header("Location: ../View/admin/view_teacher.php");
+ 
+    $stmt->bind_param("sssss", $name, $email, $subject, $hashPass, $imgName);
+ 
+    if($stmt->execute()){
+        echo json_encode([
+            "status"=>"success",
+            "message"=>"Teacher added successfully"
+        ]);
+    } else {
+        echo json_encode([
+            "status"=>"error",
+            "message"=>"Database error"
+        ]);
+    }
     exit();
 }
-
-
-?>

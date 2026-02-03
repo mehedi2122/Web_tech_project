@@ -2,13 +2,11 @@
 session_start();
 include "../Model/db.php";
 
-/* =====================
-   STUDENT LOGIN
-===================== */
 if (isset($_POST['student_login'])) {
 
     $username = mysqli_real_escape_string($conn, $_POST['username']);
     $password = $_POST['password'];
+    $remember = $_POST['remember'];
 
     $query = mysqli_query($conn,
         "SELECT * FROM students WHERE username='$username' OR email='$username'"
@@ -18,27 +16,32 @@ if (isset($_POST['student_login'])) {
 
         $row = mysqli_fetch_assoc($query);
 
-        if (password_verify($password, $row['password']) || $password == $row['password']) {
+      
+        if ($password === $row['password']) {
 
-            // SET STUDENT SESSION (THIS WAS MISSING)
             $_SESSION['student_id'] = $row['id'];
             $_SESSION['student_name'] = $row['name'];
 
-            // Remember Me cookie
-            if (isset($_POST['remember'])) {
-                setcookie("student_user", $username, time() + 86400 * 7, "/");
+ 
+            if ($remember == "true") {
+                setcookie("student_user", $username, time() + (86400 * 7), "/"); // 7 days
+            } else {
+                setcookie("student_user", "", time() - 3600, "/");
             }
 
-            header("Location: ../View/student/student_dashboard.php");
+            echo "success";
             exit();
         }
     }
 
-    echo "<script>
-        alert('Invalid Username or Password');
-        window.location.href='../View/student/student_login.php';
-    </script>";
+    echo "❌ Invalid Username or Password";
+    exit();
 }
+
+
+
+
+
 
 
 /* =====================

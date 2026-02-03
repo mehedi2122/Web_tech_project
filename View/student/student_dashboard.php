@@ -9,17 +9,19 @@ if (!isset($_SESSION['student_id'])) {
 
 $student_id = $_SESSION['student_id'];
 
-/* Fetch student results */
+/* Fetch Results */
 $resultQuery = mysqli_query($conn,
     "SELECT * FROM results WHERE student_id = '$student_id'"
 );
 
-/* Fetch student documents */
+/* Fetch Documents */
 $docQuery = mysqli_query($conn,
-    "SELECT * FROM documents WHERE student_id = '$student_id' ORDER BY uploaded_at DESC"
+    "SELECT * FROM documents 
+     WHERE student_id = '$student_id' 
+     ORDER BY uploaded_at DESC"
 );
 
-/* Fetch notices */
+/* Fetch Notices */
 $noticeQuery = mysqli_query($conn,
     "SELECT * FROM notices ORDER BY id DESC"
 );
@@ -39,7 +41,7 @@ $noticeQuery = mysqli_query($conn,
         }
 
         .dashboard {
-            width: 75%;
+            width: 80%;
             margin: 40px auto;
             background: white;
             padding: 25px;
@@ -47,7 +49,7 @@ $noticeQuery = mysqli_query($conn,
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
         }
 
-        h2 {
+        h2, h3 {
             color: #333;
         }
 
@@ -77,7 +79,7 @@ $noticeQuery = mysqli_query($conn,
 
         .btn {
             display: inline-block;
-            padding: 10px 15px;
+            padding: 8px 15px;
             background: #007bff;
             color: white;
             text-decoration: none;
@@ -89,7 +91,7 @@ $noticeQuery = mysqli_query($conn,
         }
 
         .btn:hover {
-            opacity: 0.8;
+            opacity: 0.85;
         }
     </style>
 </head>
@@ -98,13 +100,13 @@ $noticeQuery = mysqli_query($conn,
 
 <div class="dashboard">
 
-    <h2>🎓 Welcome, <?php echo htmlspecialchars($_SESSION['student_name']); ?></h2>
+    <h2>🎓 Welcome, <?= htmlspecialchars($_SESSION['student_name']); ?></h2>
 
-    <!-- ACTIONS -->
+    <!-- ACTION BUTTONS -->
     <div class="section">
         <a class="btn" href="student_profile.php">👤 My Profile</a>
-        <a class="btn btn-danger" href="student_logout.php">🚪 Logout</a>
         <a class="btn" href="student_chat.php?teacher_id=1">💬 Chat</a>
+        <a class="btn btn-danger" href="student_logout.php">🚪 Logout</a>
     </div>
 
     <!-- RESULTS -->
@@ -127,9 +129,7 @@ $noticeQuery = mysqli_query($conn,
                     </tr>
                 <?php } ?>
             <?php } else { ?>
-                <tr>
-                    <td colspan="3">No results published yet.</td>
-                </tr>
+                <tr><td colspan="3">No results available</td></tr>
             <?php } ?>
         </table>
     </div>
@@ -152,22 +152,20 @@ $noticeQuery = mysqli_query($conn,
                         <td><?= htmlspecialchars($doc['description']) ?></td>
                         <td>
                             <a class="btn" href="../../uploads/<?= $doc['file_name'] ?>" target="_blank">
-                                View / Download
+                                View
                             </a>
                         </td>
                     </tr>
                 <?php } ?>
             <?php } else { ?>
-                <tr>
-                    <td colspan="3">No documents uploaded yet.</td>
-                </tr>
+                <tr><td colspan="3">No documents uploaded</td></tr>
             <?php } ?>
         </table>
     </div>
 
-    <!-- NOTICE -->
+    <!-- NOTICES -->
     <div class="section">
-        <h3>📢 Notice & Announcements</h3>
+        <h3>📢 Notices</h3>
 
         <table>
             <tr>
@@ -179,39 +177,12 @@ $noticeQuery = mysqli_query($conn,
                 <?php while ($n = mysqli_fetch_assoc($noticeQuery)) { ?>
                     <tr>
                         <td><?= htmlspecialchars($n['title']) ?></td>
-                        <td><?= htmlspecialchars($n['message']) ?></td>
+                        <td><?= htmlspecialchars($n['description']) ?></td>
                     </tr>
                 <?php } ?>
             <?php } else { ?>
-                <tr>
-                    <td colspan="2">No notices available.</td>
-                </tr>
+                <tr><td colspan="2">No notices available</td></tr>
             <?php } ?>
-        </table>
-    </div>
-
-    <!-- CLASS ACTIVITY -->
-    <div class="section">
-        <h3>📚 Class Activities</h3>
-
-        <table>
-            <tr>
-                <th>Date</th>
-                <th>Activity</th>
-                <th>Status</th>
-            </tr>
-
-            <tr>
-                <td>2026-01-10</td>
-                <td>Assignment 1</td>
-                <td>Completed</td>
-            </tr>
-
-            <tr>
-                <td>2026-01-15</td>
-                <td>Quiz - ML</td>
-                <td>Pending</td>
-            </tr>
         </table>
     </div>
 

@@ -2,6 +2,7 @@
 <html>
 <head>
     <title>Student Login</title>
+
     <style>
         body {
             font-family: Arial;
@@ -32,32 +33,81 @@
         .back-btn {
             background:#6c757d;
         }
+        .error {
+            color:red;
+            margin-top:10px;
+        }
     </style>
+
+    <script>
+        function studentLogin() {
+
+            let username = document.getElementById("username").value.trim();
+            let password = document.getElementById("password").value.trim();
+            let remember = document.getElementById("remember").checked;
+            let errorBox = document.getElementById("error");
+
+            if (username === "" || password === "") {
+                errorBox.innerHTML = "❌ All fields are required!";
+                return false;
+            }
+
+            let xhr = new XMLHttpRequest();
+            xhr.open("POST", "../../Controller/AuthController.php", true);
+            xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+            xhr.onreadystatechange = function () {
+                if (this.readyState === 4 && this.status === 200) {
+
+                    if (this.responseText.trim() === "success") {
+                        window.location.href = "student_dashboard.php";
+                    } else {
+                        errorBox.innerHTML = this.responseText;
+                    }
+                }
+            };
+
+            xhr.send(
+                "student_login=1" +
+                "&username=" + encodeURIComponent(username) +
+                "&password=" + encodeURIComponent(password) +
+                "&remember=" + remember
+            );
+
+            return false;
+        }
+    </script>
 </head>
+
 <body>
- 
+
 <div class="login-box">
     <h2>🎓 Student Login</h2>
- 
-    <form method="POST" action="../../Controller/AuthController.php">
- 
-        <input type="text" name="username" placeholder="Username" required>
- 
-        <input type="password" name="password" placeholder="Password" required>
- 
+
+    <form onsubmit="return studentLogin();">
+
+        <input type="text" id="username"
+               placeholder="Username or Email"
+               value="<?php echo isset($_COOKIE['student_user']) ? $_COOKIE['student_user'] : ''; ?>">
+
+        <input type="password" id="password" placeholder="Password">
+
         <label>
-            <input type="checkbox" name="remember"> Remember Me
+            <input type="checkbox" id="remember"
+            <?php if(isset($_COOKIE['student_user'])) echo "checked"; ?>>
+            Remember Me
         </label>
- 
-        <button type="submit" name="student_login">Login</button>
- 
+
+        <button type="submit">Login</button>
+
         <button type="button" class="back-btn"
             onclick="window.location.href='../../index.php'">
             Back to Home
         </button>
+
+        <p id="error" class="error"></p>
     </form>
 </div>
- 
+
 </body>
 </html>
- 
